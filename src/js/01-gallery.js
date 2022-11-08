@@ -22,22 +22,23 @@ const onListOfImageClick = (e) => {
         return;
     }
 
-    const instance = basicLightbox.create(`
-    <img src="${target.dataset.source}" width="800" height="600">`);
-
-    instance.show();
-
     const onListOfImageKeydown = (e) => {
-
         if (e.code === 'Escape') {
             console.log(e.code);
-            instance.close();
-
-            window.removeEventListener('keydown', onListOfImageKeydown);
+            instance.close(); 
         }
     };
 
-    window.addEventListener('keydown', onListOfImageKeydown);
+    const objOfMethod = {
+        onShow: () => {window.addEventListener('keydown', onListOfImageKeydown); },
+        onClose: () => {window.removeEventListener('keydown', onListOfImageKeydown);}
+    };
+
+    const instance = basicLightbox.create(`
+    <img src="${target.dataset.source}" width="800" height="600">`, objOfMethod);
+
+    instance.show();
+
 };
 
 listOfImage.addEventListener('click', onListOfImageClick);
